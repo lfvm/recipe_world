@@ -6,7 +6,7 @@ db:
 	docker exec -it recipes-postgres psql -U postgres -c "CREATE DATABASE recipes"
 
 env:
-	source env/bin/activate
+	python3 -m venv env && source env/bin/activate
 
 migrations:
 	python manage.py makemigrations
