@@ -17,6 +17,9 @@ class RecipeListApiView(APIView):
 
         description = request.query_params.get("description", "")
         title = request.query_params.get("title", "")
+        tags = request.query_params.get("tags", "")
+        tags = tags.split(",") if tags else []
+
 
         query = Q()
 
@@ -24,6 +27,8 @@ class RecipeListApiView(APIView):
             query |= Q(description__icontains=description)
         if title:
             query |= Q(title__icontains=title)
+        if tags:
+            query |= Q(tags__id__in=tags)
 
         recipes = Recipe.objects.filter(query)
 

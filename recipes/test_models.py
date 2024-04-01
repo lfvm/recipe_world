@@ -1,7 +1,6 @@
 from django.test import TestCase
 from .models import Recipe
-# Create your tests here.
-
+from tags.models import Tag
 class CreateRecipeTestCase(TestCase):
     def setUp(self):
         Recipe.objects.create(description="a recipe")
@@ -47,3 +46,31 @@ class DeleteRecipeTestCase(TestCase):
 
 
 
+class RecipesWithTagsTests(TestCase):
+    def setUp(self):
+
+        self.tag1 = Tag.objects.create(name="tag1")
+        self.tag2 = Tag.objects.create(name="tag2")
+        self.tag3 = Tag.objects.create(name="tag3")
+        r1 =Recipe.objects.create(description="a recipe",)
+        r2 = Recipe.objects.create(description="a recipe2")
+
+        r1.tags.add(self.tag1.id)
+        r2.tags.add(self.tag2.id)
+
+    def test_get_recipe_with_tag(self):
+        """Get recipes with a tag"""
+        recipes = Recipe.objects.filter(tags__id=self.tag1.id)
+        self.assertEqual(len(recipes), 1)
+        self.assertEqual(recipes[0].description, "a recipe")
+
+        recipes = Recipe.objects.filter(tags__id=self.tag2.id)
+        self.assertEqual(len(recipes), 1)
+        self.assertEqual(recipes[0].description, "a recipe2")
+
+    def test_empty_resuult(self):
+        """Get recipes with a tag that does not exist"""
+        recipes = Recipe.objects.filter(tags__id=self.tag3.id)
+        self.assertEqual(len(recipes), 0)
+
+    
