@@ -17,6 +17,8 @@ Including another URLconf
 from django.urls import path, include
 from recipes import urls as RecipeUrls
 from users import urls as UsersUrls
+from tags import urls as TagUrls
+
 from rest_framework_simplejwt import views as jwt_views
 
 
@@ -24,6 +26,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path("recipes/", include(RecipeUrls)),
     path("users/", include(UsersUrls)),
+    path("tags/", include(TagUrls)),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token-refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 ]
