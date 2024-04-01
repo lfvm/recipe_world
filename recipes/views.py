@@ -10,7 +10,6 @@ from django.db.models import Q
 
 
 class RecipeListApiView(APIView):
-    # permission_classes = [permissions.IsAuthenticated]
     serializer_class = RecipeSerializer
 
     def get(self, request, *args, **kwargs):
